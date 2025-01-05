@@ -1,15 +1,16 @@
+import { useNavigation } from '@react-navigation/native';
 import { useMutation } from 'convex/react';
 import React, { useState } from 'react';
 import { SafeAreaView, TouchableOpacity, View, Text, StyleSheet, TextInput } from 'react-native';
 import { api } from '../../convex/_generated/api';
-import { useNavigation } from '@react-navigation/native';
 
-function LoginScreen() {
+function SignUpScreen() {
     const [id, setId] = useState<string>('');
     const [pw, setPw] = useState<string>('');
     const [flag, setFlag] = useState<boolean>(true);
 
-    const verify = useMutation(api.login.authentication);
+    const checkId = useMutation(api.login.isValidId);
+    const signUp = useMutation(api.login.signUp);
 
     const navigation = useNavigation();
 
@@ -23,15 +24,15 @@ function LoginScreen() {
                 <Text
                     style={st.titleTextTop}
                 >
-                    TEST
+                    SIGN
                 </Text>
                 <Text
                     style={st.titleTextBottom}
                 >
-                    CHAT
+                    UP
                 </Text>
             </View>
-
+        
             <View
                 style={st.inputArea}
             >
@@ -41,7 +42,7 @@ function LoginScreen() {
                     placeholder='Type Your ID Here'
                     onChangeText={(e) => setId(e)}
                 />
-
+        
                 <TextInput
                     style={st.textInput}
                     value={pw}
@@ -50,27 +51,28 @@ function LoginScreen() {
                     secureTextEntry={true}
                 />
             </View>
-
+        
             <TouchableOpacity
                 style={st.loginButton}
                 onPress={async () => {
-                    const auth = await verify({userId: id, userPw: pw});
-                    if (auth) {
-                        setFlag(true);
-                        navigation.navigate('Home' as never);
+                    const isValid = await checkId({userId : id});
+
+                    if (isValid) {
+                        await signUp({userId: id, userPw: pw})
+                        navigation.navigate('Login' as never);
                     }
                     else {
                         setFlag(false);
                     }
                 }}
             >
-                <Text
-                    style={st.buttonText}
-                >
-                    LOGIN
-                </Text>
+                    <Text
+                        style={st.buttonText}
+                    >
+                        SIGN UP
+                    </Text>
             </TouchableOpacity>
-
+        
             {  !flag && 
                 <View
                     style={st.warningArea}
@@ -78,19 +80,20 @@ function LoginScreen() {
                     <Text
                         style={st.warningText}
                     >
-                        OOPS, Something's Wrong! Try Again.
+                        겹치는 ID이거나 빈 문자열입니다.
+                        다시 확인해주세요.
                     </Text>
                 </View>
             }
-
-            <Text
-                style={st.signUpText}
-                onPress={ async () => {
-                    navigation.navigate('SignUp' as never);
-                }}
-            >
-                SIGN UP
-            </Text>
+        
+                <Text
+                    style={st.signUpText}
+                    onPress={() => {
+                        navigation.navigate('Login' as never);
+                    }}
+                >
+                    로그인 화면으로 돌아가기
+                </Text>
         </SafeAreaView>
     )
 }
@@ -162,4 +165,4 @@ const st = StyleSheet.create({
     }
 });
 
-export default LoginScreen;
+export default SignUpScreen;

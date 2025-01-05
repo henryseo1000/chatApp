@@ -33,3 +33,17 @@ export const signUp = mutation({
     },
 });
 
+export const isValidId = mutation({
+  args: {
+    userId: v.string()
+  },
+  handler: async (ctx, args) => {
+    const verifyId = await ctx.db.query("users")
+    .filter((q) => 
+      q.eq(q.field("user_id"), args.userId)
+    )
+    .collect();
+
+    return verifyId.length >= 1 ? false : true;
+  },
+})
