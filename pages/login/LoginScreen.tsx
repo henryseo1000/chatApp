@@ -1,8 +1,10 @@
 import { useMutation } from 'convex/react';
+import { useDispatch, useSelector } from "react-redux";
 import React, { useState } from 'react';
 import { SafeAreaView, TouchableOpacity, View, Text, StyleSheet, TextInput } from 'react-native';
 import { api } from '../../convex/_generated/api';
 import { useNavigation } from '@react-navigation/native';
+import { setTemplate, setUserId } from '../../modules/redux/slice/AccountSlice';
 
 function LoginScreen() {
     const [id, setId] = useState<string>('');
@@ -11,7 +13,14 @@ function LoginScreen() {
 
     const verify = useMutation(api.login.authentication);
 
+    const dispatch = useDispatch();
+
     const navigation = useNavigation();
+
+    const setUserInfo = (id: string) => {
+        const result = dispatch(setTemplate({userName: id, userId: id}));
+        console.log("result :: ", result)
+    }
 
     return (
         <SafeAreaView
@@ -56,6 +65,7 @@ function LoginScreen() {
                 onPress={async () => {
                     const auth = await verify({userId: id, userPw: pw});
                     if (auth) {
+                        setUserInfo(id);
                         setFlag(true);
                         navigation.navigate('Home' as never);
                     }

@@ -2,10 +2,16 @@ import { useMutation } from 'convex/react';
 import React, { useState } from 'react'
 import { StyleSheet, View, Text, TextInput, TouchableOpacity } from 'react-native'
 import { api } from '../../convex/_generated/api';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../modules/redux/RootReducer';
 
 function InputArea() {
     const sendMessage = useMutation(api.chat.sendMessage);
     const [newInput, setNewInput] = useState('');
+
+    const dispatch = useDispatch();
+
+    const userInfo = useSelector((state: RootState) => state.template);
 
     return (
         <View style={st.areaContainer}>
@@ -18,7 +24,7 @@ function InputArea() {
             <TouchableOpacity
                 style={st.sendButton}
                 onPress={async (e) => {
-                    await sendMessage({ user: "test", body: newInput });
+                    await sendMessage({ user: userInfo.userId, body: newInput });
                     setNewInput("");
                 }}
             >

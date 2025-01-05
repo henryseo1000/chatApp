@@ -5,16 +5,22 @@ import { SafeAreaView, ScrollView, StyleSheet } from 'react-native'
 import { useQuery } from 'convex/react'
 import { api } from '../../convex/_generated/api'
 import ChatBox from '../../components/chat/ChatBox'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../../modules/redux/RootReducer'
 
 function ChatScreen() {
     const messages = useQuery(api.chat.getMessages);
     const scrollViewRef = useRef<ScrollView>(null);
+
+    const dispatch = useDispatch();
+
+    const userInfo = useSelector((state: RootState) => state.template);
     
     return (
         <SafeAreaView style={st.container}>
             <ChatInform
                 chatName='Test Chat'
-                connectedUserName='Henry'
+                connectedUserName={userInfo.userId}
             />
             <ScrollView
                 contentInsetAdjustmentBehavior="automatic"
@@ -25,7 +31,7 @@ function ChatScreen() {
                     (message) => <ChatBox
                         name={message.user}
                         message={message.body}
-                        direction={message.user === 'test' ? 'right' : 'left'}
+                        direction={message.user === userInfo.userId ? 'right' : 'left'}
                         key={message._id}
                     />
                 )}
