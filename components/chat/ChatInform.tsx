@@ -1,7 +1,5 @@
-import { useNavigation } from '@react-navigation/native';
 import React from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import FontAwesome, { SolidIcons, RegularIcons, BrandIcons } from 'react-native-fontawesome';
+import { StyleSheet, Text, View } from 'react-native'
 
 interface InformProps {
     chatName : string
@@ -9,31 +7,25 @@ interface InformProps {
 }
 
 function ChatInform({chatName, connectedUserName} : InformProps) {
-    const navigation = useNavigation();
-
-    return (
-        <View
-            style={st.informArea}
-        >
-            <TouchableOpacity
-                onPress={() => {
-                    navigation.goBack()
-                }}
-            >
-                <Text>Go Back</Text>
-            </TouchableOpacity>
-
-            <Text
-                style={st.chatNameText}
-            >
-                {chatName}
-            </Text>
-
-            <View>
-                
-            </View>
+  return (
+    <View
+        style={st.informArea}
+    >
+        <View>
+            
         </View>
-    )
+
+        <Text
+            style={st.chatNameText}
+        >
+            {chatName}
+        </Text>
+
+        <View>
+            
+        </View>
+    </View>
+  )
 }
 
 const st = StyleSheet.create({
