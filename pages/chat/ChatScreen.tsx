@@ -9,15 +9,12 @@ import ChatBox from '../../components/chat/ChatBox'
 function ChatScreen() {
     const messages = useQuery(api.chat.getMessages);
     const scrollViewRef = useRef<ScrollView>(null);
-
-    useEffect(() => {
-
-    })
+    
     return (
         <SafeAreaView style={st.container}>
             <ChatInform
-            chatName='Test Chat'
-            connectedUserName='Henry'
+                chatName='Test Chat'
+                connectedUserName='Henry'
             />
             <ScrollView
                 contentInsetAdjustmentBehavior="automatic"

@@ -1,9 +1,17 @@
+import { useMutation, useQuery } from 'convex/react';
 import React, { useState } from 'react';
 import { SafeAreaView, TouchableOpacity, View, Text, StyleSheet, TextInput } from 'react-native';
+import { api } from '../../convex/_generated/api';
+import { useNavigation } from '@react-navigation/native';
 
 function LoginScreen() {
-    const [id, setId] = useState('');
-    const [pw, setPw] = useState('');
+    const [id, setId] = useState<string>('');
+    const [pw, setPw] = useState<string>('');
+    const [flag, setFlag] = useState<boolean>(true);
+
+    const verify = useMutation(api.login.authentication);
+
+    const navigation = useNavigation();
 
     return (
         <SafeAreaView
@@ -44,8 +52,15 @@ function LoginScreen() {
 
             <TouchableOpacity
                 style={st.loginButton}
-                onPress={() => {
-                    
+                onPress={async () => {
+                    const auth = await verify({userId: id, userPw: pw});
+                    if (auth) {
+                        setFlag(true);
+                        navigation.navigate('Home' as never);
+                    }
+                    else {
+                        setFlag(false);
+                    }
                 }}
             >
                 <Text
@@ -54,6 +69,18 @@ function LoginScreen() {
                     LOGIN
                 </Text>
             </TouchableOpacity>
+
+            {  !flag && 
+                <View
+                    style={st.warningArea}
+                >
+                    <Text
+                        style={st.warningText}
+                    >
+                        OOPS, Something's Wrong! Try Again.
+                    </Text>
+                </View>
+            }
 
             <Text
                 style={st.signUpText}
@@ -117,6 +144,17 @@ const st = StyleSheet.create({
     signUpText: {
         color: "#585C9E",
         textDecorationLine: "underline"
+    },
+    warningArea : {
+        padding: 10,
+        borderWidth: 1,
+        borderColor: "#FF1212",
+        borderRadius: 10,
+        backgroundColor: "#F73333"
+    },
+    warningText : {
+        color: "#ffffff",
+        fontSize: 10
     }
 });
 
