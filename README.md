@@ -22,3 +22,6 @@
 3. Convex를 이용한 API 제작
 4. 앱 화면 구성
 5. 앱과 API 연결, 로직 구성
+
+## 영상
+https://www.youtube.com/watch?v=APfuOW3J-x4
