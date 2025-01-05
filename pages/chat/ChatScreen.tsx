@@ -1,4 +1,4 @@
-import React, { LegacyRef, MutableRefObject, RefObject, useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import InputArea from '../../components/chat/InputArea'
 import ChatInform from '../../components/chat/ChatInform'
 import { SafeAreaView, ScrollView, StyleSheet } from 'react-native'
@@ -16,8 +16,8 @@ function ChatScreen() {
     return (
         <SafeAreaView style={st.container}>
             <ChatInform
-            chatName='Test Chat'
-            connectedUserName='Henry'
+                chatName='Test Chat'
+                connectedUserName='Henry'
             />
             <ScrollView
                 contentInsetAdjustmentBehavior="automatic"
