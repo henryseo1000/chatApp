@@ -33,6 +33,7 @@ function ChatScreen() {
                         message={message.body}
                         direction={message.user === userInfo.userId ? 'right' : 'left'}
                         key={message._id}
+                        time={message._creationTime}
                     />
                 )}
             </ScrollView>

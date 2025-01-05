@@ -5,18 +5,29 @@ interface ChatInfo {
     name : string,
     photo? : string,
     message : string,
-    direction : "left" | "right"
+    direction : "left" | "right",
+    time : string
 }
 
-function ChatBox({ name, photo, message, direction } : ChatInfo) {
+function ChatBox({ name, photo, message, direction, time } : ChatInfo) {
   return (
     <View style={direction === 'left' ? st.boxContainerLeft : st.boxContainerRight}>
-        { direction === "left" &&
+        { direction === "left" ?
             <View>
                 <Image 
                     source={require('../../assets/image/defaultProfileImage.png')}
                     style={st.imageArea}
                 />
+            </View>
+            :
+            <View 
+                style={st.timeArea}
+            >
+                <Text
+                    style={st.sentTime}
+                >
+                    {new Date(time).toUTCString()}
+                </Text>
             </View>
         }
         <View style={st.messageArea}>
@@ -32,12 +43,22 @@ function ChatBox({ name, photo, message, direction } : ChatInfo) {
                 {message}
             </Text>
         </View>
-        { direction === "right" &&
+        { direction === "right" ?
             <View>
                 <Image
                     source={require('../../assets/image/defaultProfileImage.png')}
                     style={st.imageArea}
                 />
+            </View>
+            :
+            <View 
+                style={st.timeArea}
+            >
+                <Text
+                    style={st.sentTime}
+                >
+                    {new Date(time).toUTCString()}
+                </Text>
             </View>
         }
     </View>
@@ -100,6 +121,14 @@ const st = StyleSheet.create({
         borderTopLeftRadius: 5,
         borderBottomLeftRadius: 5,
         borderBottomRightRadius: 5
+    },
+    timeArea: {
+        display: "flex",
+        justifyContent: "flex-end"
+    },
+    sentTime: {
+        color: "#585C9E",
+        fontSize: 10
     }
 })
 
