@@ -23,7 +23,8 @@ function ChatInform({chatName, connectedUserName} : InformProps) {
                 <Text 
                     style={st.optionText}
                 >
-                    Go Back</Text>
+                    Go Back
+                </Text>
             </TouchableOpacity>
             
             <View
@@ -34,6 +35,12 @@ function ChatInform({chatName, connectedUserName} : InformProps) {
                 >
                     {chatName}
                 </Text>
+
+                <Text
+                    style={st.connectedUserText}
+                >
+                    Currently Connected as {connectedUserName}
+                </Text>
             </View>
 
             <TouchableOpacity
@@ -42,11 +49,11 @@ function ChatInform({chatName, connectedUserName} : InformProps) {
                     navigation.goBack();
                 }}
             >
-                <Text
+                {/* <Text
                     style={st.optionText}
                 >
                     Menu
-                </Text>
+                </Text> */}
             </TouchableOpacity>
         </View>
     )
@@ -56,7 +63,7 @@ const st = StyleSheet.create({
     informArea: {
         display: "flex",
         flexDirection: "row",
-        height: "7%",
+        height: "10%",
         backgroundColor: "#191B43",
         boxShadow: "10px"
     },
@@ -79,6 +86,10 @@ const st = StyleSheet.create({
         width: "80%",
         justifyContent: "center",
         alignItems: "center",
+    },
+    connectedUserText: {
+        color: "#585C9E",
+        fontSize: 10
     }
 })
 

@@ -7,7 +7,6 @@ export const sendMessage = mutation({
       body: v.string(),
     },
     handler: async (ctx, args) => {
-      console.log("This TypeScript function is running on the server.");
       await ctx.db.insert("messages", {
         user: args.user,
         body: args.body,
@@ -18,9 +17,7 @@ export const sendMessage = mutation({
 export const getMessages = query({
   args: {},
   handler: async (ctx) => {
-    // Get most recent messages first
-    const messages = await ctx.db.query("messages").order("desc").take(50);
-    // Reverse the list so that it's in a chronological order.
+    const messages = await ctx.db.query("messages").order("desc").collect();
     return messages.reverse();
   },
 });
