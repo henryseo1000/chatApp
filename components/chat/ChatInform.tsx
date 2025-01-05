@@ -1,5 +1,6 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
 interface InformProps {
     chatName : string
@@ -7,25 +8,48 @@ interface InformProps {
 }
 
 function ChatInform({chatName, connectedUserName} : InformProps) {
-  return (
-    <View
-        style={st.informArea}
-    >
-        <View>
-            
-        </View>
+    const navigation = useNavigation();
 
-        <Text
-            style={st.chatNameText}
+    return (
+        <View
+            style={st.informArea}
         >
-            {chatName}
-        </Text>
-
-        <View>
+            <TouchableOpacity
+                style={st.leftRightButton}
+                onPress={() => {
+                    navigation.goBack();
+                }}
+            >
+                <Text 
+                    style={st.optionText}
+                >
+                    Go Back</Text>
+            </TouchableOpacity>
             
+            <View
+                style={st.chatNameText}
+            >
+                <Text
+                    style={st.titleText}
+                >
+                    {chatName}
+                </Text>
+            </View>
+
+            <TouchableOpacity
+                style={st.leftRightButton}
+                onPress={() => {
+                    navigation.goBack();
+                }}
+            >
+                <Text
+                    style={st.optionText}
+                >
+                    Menu
+                </Text>
+            </TouchableOpacity>
         </View>
-    </View>
-  )
+    )
 }
 
 const st = StyleSheet.create({
@@ -36,14 +60,25 @@ const st = StyleSheet.create({
         backgroundColor: "#191B43",
         boxShadow: "10px"
     },
+    optionText: {
+        color: "#ffffff"
+    },
+    titleText: {
+        color: "#ffffff",
+        fontSize: 17,
+        fontWeight: "bold",
+    },
+    leftRightButton: {
+        display: "flex",
+        width: "10%",
+        justifyContent: "center",
+        alignItems: "center"
+    },
     chatNameText: {
         display: "flex",
         width: "80%",
         justifyContent: "center",
-        color: "#ffffff",
-        fontSize: 17,
-        fontWeight: "bold",
-        textAlign: "center"
+        alignItems: "center",
     }
 })
 
